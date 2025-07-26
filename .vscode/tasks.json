@@ -6,7 +6,7 @@
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/python",
             "args": [
-                "src/main.py"
+                "src/supportflow/main.py"
             ],
             "group": {
                 "kind": "build",
@@ -23,7 +23,7 @@
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src"
+                    "PYTHONPATH": "${workspaceFolder}/src/supportflow"
                 }
             },
             "problemMatcher": []
@@ -35,7 +35,7 @@
             "args": [
                 "install",
                 "-r",
-                "src/requirements.txt"
+                "src/supportflow/requirements.txt"
             ],
             "group": "build",
             "presentation": {
@@ -69,7 +69,7 @@
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/python",
             "args": [
-                "src/test_agent.py"
+                "src/supportflow/test_agent.py"
             ],
             "group": "test",
             "presentation": {
@@ -81,7 +81,7 @@
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src"
+                    "PYTHONPATH": "${workspaceFolder}/src/supportflow"
                 }
             },
             "problemMatcher": []
@@ -106,7 +106,7 @@
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src"
+                    "PYTHONPATH": "${workspaceFolder}/src/supportflow"
                 }
             },
             "problemMatcher": []

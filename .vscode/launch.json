@@ -5,11 +5,11 @@
             "name": "Python: SupportFlow",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/src/main.py",
+            "program": "${workspaceFolder}/src/supportflow/main.py",
             "console": "integratedTerminal",
             "python": "${workspaceFolder}/.venv/bin/python",
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/src"
+                "PYTHONPATH": "${workspaceFolder}/src/supportflow"
             },
             "justMyCode": true,
             "stopOnEntry": false,
@@ -24,7 +24,7 @@
             "console": "integratedTerminal",
             "python": "${workspaceFolder}/.venv/bin/python",
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/src"
+                "PYTHONPATH": "${workspaceFolder}/src/supportflow"
             },
             "justMyCode": true,
             "cwd": "${workspaceFolder}"
@@ -33,11 +33,11 @@
             "name": "Python: Test Agent",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/src/test_agent.py",
+            "program": "${workspaceFolder}/src/supportflow/test_agent.py",
             "console": "integratedTerminal",
             "python": "${workspaceFolder}/.venv/bin/python",
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/src"
+                "PYTHONPATH": "${workspaceFolder}/src/supportflow"
             },
             "justMyCode": true,
             "cwd": "${workspaceFolder}"
