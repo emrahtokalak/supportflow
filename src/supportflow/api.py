@@ -6,10 +6,14 @@ Router Agent'i kullanarak REST API hizmeti sağlar
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import Optional, Dict, Any
 import logging
 import requests
+import os
+from pathlib import Path
 
 from .agents import RouterAgent
 from .session_manager import session_manager
@@ -34,6 +38,17 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Static files için agentpanel klasörünü mount et
+current_dir = Path(__file__).parent.parent.parent  # supportflow root
+agentpanel_dir = current_dir / "agentpanel"
+
+if agentpanel_dir.exists():
+    # Static files'ı root'a mount et ki CSS/JS dosyaları direkt erişilebilir olsun
+    app.mount("/agentpanel", StaticFiles(directory=str(agentpanel_dir), html=True), name="agentpanel")
+    logger.info(f"✅ Static files mounted from: {agentpanel_dir}")
+else:
+    logger.warning(f"⚠️ AgentPanel directory not found: {agentpanel_dir}")
 
 # Global agent instance
 agent: Optional[RouterAgent] = None
@@ -100,6 +115,7 @@ async def startup_event():
 async def shutdown_event():
     """Uygulama kapatılırken çalışır"""
     logger.info("👋 ABCX Müşteri Hizmetleri API kapatılıyor...")
+
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
@@ -300,6 +316,44 @@ async def cleanup_expired_sessions():
     """
     cleaned_count = session_manager.cleanup_expired_sessions()
     return {"cleaned_sessions": cleaned_count, "message": f"{cleaned_count} session temizlendi"}
+
+
+@app.get("/")
+async def serve_index():
+    """
+    Ana sayfa - Web arayüzünü serve eder
+    """
+    agentpanel_index = current_dir / "agentpanel" / "index.html"
+    if agentpanel_index.exists():
+        return FileResponse(str(agentpanel_index))
+    else:
+        return {
+            "message": "ABCX Müşteri Hizmetleri API",
+            "status": "running",
+            "web_interface": "Web arayüzü bulunamadı. agentpanel/index.html dosyasını kontrol edin.",
+            "api_docs": "/docs",
+            "health": "/health"
+        }
+
+
+@app.get("/styles.css")
+async def serve_styles():
+    """CSS dosyasını serve eder"""
+    css_file = current_dir / "agentpanel" / "styles.css"
+    if css_file.exists():
+        return FileResponse(str(css_file), media_type="text/css")
+    else:
+        raise HTTPException(status_code=404, detail="CSS file not found")
+
+
+@app.get("/script.js")
+async def serve_script():
+    """JavaScript dosyasını serve eder"""
+    js_file = current_dir / "agentpanel" / "script.js"
+    if js_file.exists():
+        return FileResponse(str(js_file), media_type="application/javascript")
+    else:
+        raise HTTPException(status_code=404, detail="JS file not found")
 
 
 if __name__ == "__main__":

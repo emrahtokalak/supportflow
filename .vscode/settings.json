@@ -17,5 +17,6 @@
         "**/__pycache__": true,
         "**/*.pyc": true,
         "**/.pytest_cache": true
-    }
+    },
+    "livePreview.defaultPreviewPath": "/agentpanel/index.html"
 }

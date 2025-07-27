@@ -33,7 +33,14 @@
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/python",
             "args": [
-                "src/supportflow/api.py"
+                "-m",
+                "uvicorn",
+                "src.supportflow.api:app",
+                "--reload",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8000"
             ],
             "group": "build",
             "isBackground": true,
@@ -41,17 +48,52 @@
                 "echo": true,
                 "reveal": "always",
                 "focus": false,
-                "panel": "shared",
+                "panel": "dedicated",
                 "showReuseMessage": true,
                 "clear": false
             },
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src/supportflow"
+                    "PYTHONPATH": "${workspaceFolder}/src"
                 }
             },
-            "problemMatcher": []
+            "problemMatcher": {
+                "owner": "python",
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "Started server process",
+                    "endsPattern": "Application startup complete"
+                }
+            }
+        },
+        {
+            "label": "Start Full Application",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Start API Server (FastAPI)",
+                "Open Web Interface"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
         },
         {
             "label": "Install Dependencies",
@@ -155,6 +197,24 @@
                 "reveal": "always",
                 "focus": false,
                 "panel": "shared"
+            }
+        },
+        {
+            "label": "Open Web Interface",
+            "type": "shell",
+            "command": "sleep 3 && open http://localhost:8000",
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared"
+            },
+            "options": {
+                "shell": {
+                    "executable": "/bin/bash",
+                    "args": ["-c"]
+                }
             }
         }
     ]

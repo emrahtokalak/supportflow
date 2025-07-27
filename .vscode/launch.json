@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: FastAPI",
+            "name": "Python: FastAPI + Agent UI",
             "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
@@ -11,7 +11,7 @@
                 "PYTHONPATH": "${workspaceFolder}/src"
             },
             "args": [
-                "supportflow.api:app",
+                "src.supportflow.api:app",
                 "--host",
                 "0.0.0.0",
                 "--port",
@@ -19,7 +19,10 @@
                 "--reload"
             ],
             "jinja": true,
-            "cwd": "${workspaceFolder}"
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "postDebugTask": "Open Web Interface"
         },
         {
             "name": "Python: SupportFlow",

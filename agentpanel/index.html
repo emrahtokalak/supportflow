@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABCX Müşteri Hizmetleri - AI Asistan</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-robot"></i> ABCX AI Asistan</h1>
+                <div class="header-controls">
+                    <button id="sessionStatusBtn" class="btn btn-secondary">
+                        <i class="fas fa-info-circle"></i> Session Durumu
+                    </button>
+                    <button id="newSessionBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Yeni Session
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Status Bar -->
+        <div class="status-bar" id="statusBar">
+            <div class="status-item">
+                <i class="fas fa-circle status-indicator" id="connectionStatus"></i>
+                <span id="connectionText">Bağlantı kontrol ediliyor...</span>
+            </div>
+            <div class="status-item" id="sessionInfo" style="display: none;">
+                <i class="fas fa-hashtag"></i>
+                <span id="sessionId">Session: -</span>
+            </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+                <div class="welcome-message">
+                    <div class="bot-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        <h3>Merhaba! ABCX Müşteri Hizmetleri AI Asistanı</h3>
+                        <p>Size nasıl yardımcı olabilirim? Faturalama, tarife/paket değişiklikleri veya teknik destek konularında size yardımcı olabilirim.</p>
+                        <div class="quick-actions">
+                            <button class="quick-btn" data-message="Faturamla ilgili sorum var">
+                                <i class="fas fa-file-invoice"></i> Faturalama
+                            </button>
+                            <button class="quick-btn" data-message="Tarife değiştirmek istiyorum">
+                                <i class="fas fa-exchange-alt"></i> Tarife/Paket
+                            </button>
+                            <button class="quick-btn" data-message="Teknik bir sorunım var">
+                                <i class="fas fa-wrench"></i> Teknik Destek
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <input type="text" id="messageInput" placeholder="Mesajınızı yazın..." autocomplete="off">
+                    <button id="sendBtn" class="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="input-controls">
+                    <button id="escalateBtn" class="btn-escalate" title="İnsan temsilciye bağlan" style="display: none;">
+                        <i class="fas fa-user-tie"></i> İnsan Temsilci
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="sessionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-info-circle"></i> Session Detayları</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="sessionDetails">
+                <!-- Session details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <div id="customerInfoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user"></i> Müşteri Bilgileri</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="customerInfoForm">
+                    <div class="form-group">
+                        <label for="customerName">Ad Soyad:</label>
+                        <input type="text" id="customerName" name="name" placeholder="Örn: Ahmet Yılmaz">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerPhone">Telefon:</label>
+                        <input type="tel" id="customerPhone" name="phone" placeholder="Örn: 0532 123 45 67">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerEmail">E-posta:</label>
+                        <input type="email" id="customerEmail" name="email" placeholder="Örn: ahmet@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerAccount">Müşteri No:</label>
+                        <input type="text" id="customerAccount" name="account_number" placeholder="Örn: 12345678">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="skipCustomerInfo">Atla</button>
+                        <button type="submit" class="btn btn-primary">Başla</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>Yanıt bekleniyor...</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
