@@ -1,4 +1,3 @@
-
 # SupportFlow - AI Destekli Müşteri Hizmetleri
 
 Bu proje, LangGraph kütüphanesini kullanarak human-in-the-loop destekli AI agent uygulaması geliştirir. Agent, yerel Ollama üzerinde çalışan Gemma3:latest modelini kullanır. Session tabanlı konuşma yönetimi ile birden fazla alt agent'a yönlendirme ve orkestrasyon yapar.
@@ -180,3 +179,16 @@ Proje root'unda `postman_collection.json` dosyası bulunmaktadır. Bu dosyayı P
 - Human intervention logic genişletilebilir
 - Agent güven skorları için sentiment analysis eklenebilir
 - Webhook support ile external CRM entegrasyonu yapılabilir
+
+## Agent UI
+
+SupportFlow projesi, Türkçe müşteri hizmetleri yetenekleri sunan akıllı AI asistan arayüzü içerir. Agent UI'ın özellikleri:
+
+- **Çoklu Hizmet Desteği**: Faturalandırma sorguları, teknik destek ve genel yardım işlemlerini yönetir
+- **Türkçe Dil Arayüzü**: Sorunsuz müşteri etkileşimi için yerel Türkçe dil desteği
+- **Etkileşimli Sohbet**: Önerilen eylemlerle gerçek zamanlı konuşma yetenekleri
+- **Hizmet Kategorileri**: Faturalandırma, teknik destek ve genel yardım seçeneklerine hızlı erişim
+
+![Agent UI Screenshot](/agent-ui.png)
+
+Arayüz, çeşitli hizmet talepleriyle müşterilere yardımcı olmaya hazır ABCX AI Asistanını göstermekte ve sezgisel, kullanıcı dostu bir deneyim sunmaktadır.
