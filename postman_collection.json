@@ -1,0 +1,100 @@
+{
+  "info": {
+    "name": "SupportFlow Session API",
+    "description": "Human-in-the-loop destekli session tabanlı müşteri hizmetleri API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Start New Chat Session",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"Merhaba, fatura bakiyemi öğrenebilir miyim?\",\n  \"customer_info\": {\n    \"name\": \"Ahmet Yılmaz\",\n    \"phone\": \"0555 123 4567\",\n    \"account_id\": \"12345\"\n  }\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/chat",
+          "host": ["{{base_url}}"],
+          "path": ["chat"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Continue Existing Session",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"Ödeme planı yapabilir miyiz?\",\n  \"session_id\": \"{{session_id}}\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/chat",
+          "host": ["{{base_url}}"],
+          "path": ["chat"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Trigger Human Intervention",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"Bu çok kötü bir hizmet! Müdürle konuşmak istiyorum!\",\n  \"session_id\": \"{{session_id}}\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/chat",
+          "host": ["{{base_url}}"],
+          "path": ["chat"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Session Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/session/{{session_id}}/status",
+          "host": ["{{base_url}}"],
+          "path": ["session", "{{session_id}}", "status"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "session_id",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 """
-TelekomTürk Müşteri Hizmetleri Agent'ları
+ABCX Müşteri Hizmetleri Agent'ları
 """
 
 from .fatura_agent import FaturaAgent

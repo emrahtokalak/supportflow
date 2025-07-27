@@ -40,6 +40,9 @@ class RouterAgent:
 
         # Tarife Agent'ini başlat
         self.tarife_agent = TarifeAgent(model_name)
+        
+        # Son tespit edilen kategoriyi saklamak için
+        self.last_category = None
 
         # Telekomünikasyon müşteri hizmetleri kategorileri
         self.categories = {
@@ -125,6 +128,11 @@ class RouterAgent:
             state["messages"].append(f"Tespit edilen kategori: {detected_category}")
             state["category"] = detected_category
             state["step_count"] += 1
+            
+            # RouterAgent instance'ında kategoriyi sakla
+            if hasattr(state, '_router_agent_ref'):
+                state['_router_agent_ref'].last_category = detected_category
+            
             return state
 
         def route_customer(state: AgentState) -> AgentState:
@@ -134,12 +142,12 @@ class RouterAgent:
             # Kategori kontrolü - İlgili agent'lara yönlendir
             if state["category"] == "faturalama":
                 print("💳 Faturalama departmanına yönlendiriliyor...")
-                response = self.fatura_agent.handle_billing_request(state["user_input"])
+                response = self.fatura_agent.handle_billing_request(state["user_input"], state["messages"])
                 state["response"] = response
                 state["messages"].append(f"Faturalama Uzmanı: {response}")
             elif state["category"] == "paket_tarife":
                 print("📦 Tarife ve Paket departmanına yönlendiriliyor...")
-                response = self.tarife_agent.handle_tarife_request(state["user_input"])
+                response = self.tarife_agent.handle_tarife_request(state["user_input"], state["messages"])
                 state["response"] = response
                 state["messages"].append(f"Tarife Uzmanı: {response}")
             else:
@@ -174,12 +182,13 @@ class RouterAgent:
 
         return workflow.compile()
 
-    def chat(self, user_input: str) -> str:
+    def chat(self, user_input: str, history: List[str] = None) -> str:
         """
         Müşteri ile sohbet eder ve doğru departmana yönlendirir
 
         Args:
             user_input: Müşterinin talebi
+            history: Önceki mesajlar (isteğe bağlı)
 
         Returns:
             Müşteri temsilcisinin yanıtı
@@ -188,12 +197,29 @@ class RouterAgent:
         print(f"👤 Müşteri: {user_input}")
         print("-" * 50)
 
-        # Initial state
-        initial_state = AgentState(
-            messages=[], user_input=user_input, response="", step_count=1, category=""
-        )
+        # Sohbet geçmişini başlat - history parametresini doğru kullan
+        messages = history.copy() if history else []
+        
+        # Debug için geçmişi yazdır
+        if history:
+            print(f"📜 Konuşma geçmişi ({len(history)} mesaj):")
+            for i, msg in enumerate(history):
+                print(f"  {i+1}. {msg}")
+
+        # initial_state'i oluştur
+        initial_state = {
+            "messages": messages,
+            "user_input": user_input,
+            "response": "",
+            "step_count": 1,
+            "category": "",
+            "_router_agent_ref": self  # Self reference for category storage
+        }
 
         # Graph'i çalıştır
         result = self.graph.invoke(initial_state)
+        
+        # Son kategoriyi sakla
+        self.last_category = result.get("category", None)
 
         return result["response"]
