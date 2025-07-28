@@ -41,11 +41,11 @@ app.add_middleware(
 
 # Static files için agentpanel klasörünü mount et
 current_dir = Path(__file__).parent.parent.parent  # supportflow root
-agentpanel_dir = current_dir / "agentpanel"
+agentpanel_dir = current_dir / "src/agentpanel"
 
 if agentpanel_dir.exists():
     # Static files'ı root'a mount et ki CSS/JS dosyaları direkt erişilebilir olsun
-    app.mount("/agentpanel", StaticFiles(directory=str(agentpanel_dir), html=True), name="agentpanel")
+    app.mount("/src/agentpanel", StaticFiles(directory=str(agentpanel_dir), html=True), name="agentpanel")
     logger.info(f"✅ Static files mounted from: {agentpanel_dir}")
 else:
     logger.warning(f"⚠️ AgentPanel directory not found: {agentpanel_dir}")
@@ -323,7 +323,7 @@ async def serve_index():
     """
     Ana sayfa - Web arayüzünü serve eder
     """
-    agentpanel_index = current_dir / "agentpanel" / "index.html"
+    agentpanel_index = current_dir / "src/agentpanel" / "index.html"
     if agentpanel_index.exists():
         return FileResponse(str(agentpanel_index))
     else:
@@ -339,7 +339,7 @@ async def serve_index():
 @app.get("/styles.css")
 async def serve_styles():
     """CSS dosyasını serve eder"""
-    css_file = current_dir / "agentpanel" / "styles.css"
+    css_file = current_dir / "src/agentpanel" / "styles.css"
     if css_file.exists():
         return FileResponse(str(css_file), media_type="text/css")
     else:
@@ -349,7 +349,7 @@ async def serve_styles():
 @app.get("/script.js")
 async def serve_script():
     """JavaScript dosyasını serve eder"""
-    js_file = current_dir / "agentpanel" / "script.js"
+    js_file = current_dir / "src/agentpanel" / "script.js"
     if js_file.exists():
         return FileResponse(str(js_file), media_type="application/javascript")
     else:
